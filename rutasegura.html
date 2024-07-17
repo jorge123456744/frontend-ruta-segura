@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Modal con Tabla de Rutas</title>
+<style>
+
+  
+      
+</style>
+</head>
+<body>
+<header id="cabeceralogo">
+    <h1>Ruta segura</h1>
+  </header>
+
+<nav id="menuprincipal">
+  <div class="bars__menu" onclick="toggleMenu()">
+    <span class="line1__bars-menu"></span>     
+    <span class="line2__bars-menu"></span>
+    <span class="line3__bars-menu"></span>
+  </div>
+
+  <ul id="menu">
+    <li><a href="#" onclick="showModal('notificationsModal')">Notificaciones</a></li>
+    <li><a class="button-message-button" onclick="openModal('mensajesModal')">Mensajes</a></li>
+    <li><a id="openModalBtn" onclick="openModal('myModal') ">Ver Rutas</a></li>
+    <li><a href="#" onclick="openModal('facturasModal')">facturas</a></li>
+    <li><a href="#" onclick="openModal('myModal2')">estudiantes</a></li>
+  </ul>
+
+</nav>
+ 
+<div class="container">
+<div id="myModal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal('myModal')">×</span>
+      <h2>Tabla de Rutas</h2>
+      <button id="addRouteBtn" onclick="showAddRouteForm()">Agregar Ruta</button>
+    <form id="addRouteForm">
+      <label for="routeNumber">Número de Ruta:</label>
+      <input type="text" id="routeNumber" name="routeNumber" required>
+      <label for="driverName">Conductor:</label>
+      <input type="text" id="driverName" name="driverName" required>
+      <label for="departureTime">Hora de Salida:</label>
+      <input type="time" id="departureTime" name="departureTime" required>
+      <label for="origin">Origen:</label>
+      <input type="text" id="origin" name="origin" required>
+      <label for="destination">Destino:</label>
+      <input type="text" id="destination" name="destination" required>
+      <button type="button" id="saveRouteBtn" onclick="saveRoute()">Guardar Ruta</button>
+      <button type="button" id="cancelBtn" class="hidden" onclick="hideAddRouteForm()">Cancelar</button>
+    </form>
+
+    <input type="text" id="searchInput" onkeyup="searchRoutes()" placeholder="Buscar estudiante...">
+
+    <table>
+      <thead>
+          <tr>
+       <th>Ruta</th>
+          <th>Conductor</th>
+          <th>Hora</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+     <tbody id="routesTable">
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="myModal2" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('myModal2')">×</span>
+    <h2>Tabla de estudiantes y padres</h2>
+    <button id="addStudentBtn" onclick="showAddStudentForm()">Agregar Estudiante</button>
+    <form id="addStudentForm">
+      <label for="StudentName">Nombre del estudiante:</label>
+      <input type="text" id="StudentName" name="StudentName" required>
+      <label for="FatherName">Nombre del Padre:</label>
+      <input type="text" id="FatherName" name="FatherName" required>
+      <label for="Address">Direccion:</label>
+      <input type="text" id="Address" name="Address" required>
+      <label for="Telephone">Telefono:</label>
+      <input type="number" id="Telephone" name="Telephone" required>
+      <label for="ContractPrice">Contrato Precio:</label>
+      <input type="number" id="ContractPrice" name="ContractPrice" required>
+      <button type="button" id="SaveBtn" onclick="saveStudent()">Guardar</button>
+      <button type="button" id="cancelBtn" class="hidden" onclick="hideAddStudentForm()">Cancelar</button>
+    </form>
+
+    <input type="text" id="searchInput" onkeyup="searchStudents()" placeholder="Buscar estudiante...">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Estudiante</th>
+          <th>Padre</th>
+          <th>Direccion</th>
+          <th>Telefono</th>
+          <th>Contrato Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="StudentsTable">
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+  <div id="facturasModal" class="modal">
+    <dic class="modal-content">
+      <span class="close" onclick="closeModal('facturasModal')">&times;</span>
+
+      <h1>Crear Factura</h1>
+      <form id="invoiceForm">
+          <label for="customerName">Nombre del Cliente:</label>
+          <input type="text" id="customerName" name="customerName" required>
+
+          <label for="invoiceDate">Fecha:</label>
+          <input type="date" id="invoiceDate" name="invoiceDate" required>
+
+          <h3>viajes</h3>
+   
+             <div id="TravelsContainer">
+
+ 
+
+              <div class="Travels">
+                  <label for="Traveli">Nombre del estudiante:</label>
+                  <input type="text" class="Traveli" name="Traveli" required>
+
+                  <label for="TravelsQuantity">viajes:</label>
+                  <input type="number" class="TravelsQuantity" name="TravelsQuantity" required>
+
+                  <label for="TravelsPrice">Precio:</label>
+                  <input type="number" class="TravelsPrice" name="TravelsPrice" required>
+              </div>
+
+          </div>
+          <button type="button" id="addTravelBtn">Añadir estudiante</button>
+          <button type="submit">Crear Factura</button>
+      </form>
+    </div>
+    <div id="invoiceOutput"></div>
+  </div>
+    
+
+<div id="mensajesModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('mensajesModal')">&times;</span>
+    <h2>Mensajes</h2>
+  
+    <div class="tab" onclick="openTab('nuevoMensaje')">Nuevo Mensaje</div>
+    <div class="tab" onclick="openTab('recibidos')">Recibidos</div>
+    <div class="tab" onclick="openTab('enviados')">Enviados</div>
+ 
+    <div id="nuevoMensaje" class="tab-content">
+      <h3>Nuevo Mensaje</h3>
+      <form id="nuevoMensajeForm">
+        <label for="destinatario">Destinatario:</label>
+        <input type="text" id="destinatario" name="destinatario" required><br><br>
+        <label for="mensaje">Mensaje:</label><br>
+        <textarea id="mensaje" name="mensaje" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit" class="button message-button">Enviar</button>
+      </form>
+    </div>
+    <div id="recibidos" class="tab-content">
+      <h3>Recibidos</h3>
+      <p>No tienes mensajes nuevos.</p>
+    </div>
+    <div id="enviados" class="tab-content">
+      <h3>Enviados</h3>
+      <p>No has enviado mensajes.</p>
+    </div>
+  </div>
+</div>
+
+<div id="calendarSection">
+  <div class="calendar">
+      <div class="header">
+          <select id="monthSelect"></select>
+          <select id="yearSelect"></select>
+      </div>
+      <div class="weekdays">
+          <div>Dom</div>
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mié</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sáb</div>
+      </div>
+      <div class="days" id="days"></div>
+  </div>
+  <button id="viewEventsButton">Eventos</button>
+</div>
+
+<div id="eventForm" class="event-form">
+  <button class="close-button" id="closeButton">X</button>
+  <h3>Agregar Evento</h3>
+  <textarea id="eventText" placeholder="Descripción del evento"></textarea>
+  <button id="saveEvent">Guardar</button>
+</div>
+
+<div id="eventsSection" class="events">
+  <h3>Eventos</h3>
+  <ul id="eventList"></ul>
+  <button id="backToCalendarButton">Volver al Calendario</button>
+</div> 
+
+
+
+<div id="map-container">
+  <div id="map">
+      <h2></h2>
+      <iframe id="mapIframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6813.794426279062!2d-75.50856022026584!3d5.064020711068973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e476ffa6a42ce3b%3A0xa863cf6423ea141c!2sManizales%2C%20Caldas!5e0!3m2!1ses-419!2sco!4v1717968327716!5m2!1ses-419!2sco" 
+      width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
+      </div>
+  </div>
+
+<div id="notificationsModal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal('notificationsModal')">&times;</span>
+      <h2>Enviar Notificación</h2>
+      <form>
+          <label for="notification-title">Título:</label><br>
+          <input type="text" id="notification-title" name="notification-title"><br>
+          <label for="notification-message">Mensaje:</label><br>
+          <textarea id="notification-message" name="notification-message"></textarea><br>
+          <label for="notification-recipients">Destinatarios:</label><br>
+          <select id="notification-recipients" name="notification-recipients">
+              <option value="all">Todos los usuarios</option>
+              <option value="students">padres</option>
+              <option value="teachers">conductores</option>
+          
+          </select><br>
+          <label for="notification-type">Tipo de Notificación:</label><br>
+          <select id="notification-type" name="notification-type">
+              <option value="info">Informativa</option>
+              <option value="alert">Alerta</option>
+              <option value="reminder">Recordatorio</option>
+    
+          </select><br>
+          <button type="submit">Enviar Notificación</button>
+      </form>
+  </div>
+</div>
+</div>
+
+
+<footer class="footer">
+      <p>&copy; 2024 Ruta segura. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+
+
+</script>
+</body>
+</html>
+
