@@ -331,6 +331,12 @@ th {
    margin-bottom: 20px;
  }
 
+.caja{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
  .header {
    display: flex;
    justify-content: space-between;
@@ -501,13 +507,14 @@ border-radius: 7PX;
       flex-wrap: wrap;
       height: 411PX;
     }
-    
+   
    #map-container {
      display: inline-block; 
      justify-content: flex-end; 
      gap: 20px;
      flex: 1;
      flex-wrap: wrap; 
+   
    }
 
    #map {
